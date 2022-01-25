@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace=绑定一个指定的dao/mapper接口-->
+<mapper namespace="com.xiong.dao.UserMapper">
+<!--
+第五步，Executor执行器。是MyBatis的核心，负责SQL语句的生成和查询缓存的维护，
+它将根据SqlSession传递的参数动态地生成需要执行的SQL语句，同时负责查询缓存的维护
+SimpleExecutor    SIMPLE 就是普通的执行器。是MyBatis中默认使用的执行器. 每执行一次update或select，
+就开启一个Statement对象，用完立刻关闭Statement对象。（可以是Statement或PrepareStatement对象）
+ReuseExecutor    执行器会重用预处理语句（PreparedStatements）
+BatchExecutor    它是批处理执行器
+
+第六步，MappedStatement对象。MappedStatement是对解析的SQL的语句封装，
+一个MappedStatement代表了一个sql语句标签，如下：
+-->
+    <!--select查询语句-->
+    <!--一个动态sql标签就是一个`MappedStatement`对象-->
+    <!--
+    第七步，输入参数映射。输入参数类型可以是基本数据类型，也可以是Map、List、POJO类型复杂数据类型，
+    这个过程类似于JDBC的预编译处理参数的过程，有两个属性 parameterType和parameterMap
+
+    第八部，封装结果集。可以封装成多种类型可以是基本数据类型，也可以是Map、List、POJO类型复杂数据类型。
+    封装结果集的过程就和JDBC封装结果集是一样的。也有两个常用的属性resultType和resultMap。
+    -->
+    <select id="getUserList" resultType="User">
+        select * from mybatis.user
+    </select>
+
+    <select id="getUserById" parameterType="int" resultType="User">
+        select * from mybatis.user where id = #{id}
+    </select>
+    <!--对象中的属性，可以直接取进来-->
+    <insert id="addUser" parameterType="User">
+        insert into mybatis.user (id,name,pwd) values (#{id},#{name},#{pwd});
+    </insert>
+    <update id="updateUser" parameterType="User">
+        update mybatis.user set name=#{name},pwd=#{pwd} where id=#{id} ;
+    </update>
+    <delete id="deleteUser" parameterType="int">
+        delete from mybatis.user where id = #{id}
+    </delete>
+    <select id="getVagueUserList" resultType="User">
+        select * from mybatis.user where name like '%ong'
+    </select>
+    <update id="updateUserByMap" parameterType="map">
+        update mybatis.user set  name =#{name},pwd=#{pwd} where id=#{id} ;
+    </update>
+    <!--分页-->
+    <select id="getUserByLimit" parameterType="map" resultType="User">
+        select * from user limit #{startIndex},#{pageSize}
+    </select>
+</mapper>

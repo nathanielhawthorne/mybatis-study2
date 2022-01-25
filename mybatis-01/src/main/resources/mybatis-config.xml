@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!--
+第一步，读取MyBatis的核心配置文件。mybatis-config.xml为MyBatis的全局配置文件，
+用于配置数据库连接、属性、类型别名、类型处理器、插件、环境配置、映射器（mapper.xml）等信息，
+这个过程中有一个比较重要的部分就是映射文件其实是配在这里的；
+这个核心配置文件最终会被封装成一个Configuration对象
+
+-->
+<configuration>
+    <!--下面的数据库数据不用在配置，统一配在db.properties中-->
+    <properties resource="db.properties"/>
+    <!--
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    -->
+    <settings>
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+    <!--User可以用在任何使用com.xiong.pojo.User的地方,用来减少类完全限定名的冗余-->
+    <typeAliases>
+        <typeAlias type="com.xiong.pojo.User" alias="User"/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--
+    第二步，加载映射文件。映射文件即SQL映射文件，该文件中配置了操作数据库的SQL语句，
+    映射文件是在mybatis-config.xml中加载；可以加载多个映射文件。常见的配置的方式有两种，
+    一种是package扫描包，一种是mapper找到配置文件的位置。
+    -->
+    <!-- 使用包路径，扫描包下所有的接口，这种方式比较方便 -->
+    <!--<package name="com.mybatis.demo"/> -->
+
+    <!--使用mapper的时候-->
+    <!-- resource:使用相对路径的资源引用-->
+    <!-- url:使用绝对类路径的资源引用-->
+    <!-- class:使用映射器接口实现类的完全限定类名-->
+    <mappers>
+        <mapper resource="com/xiong/dao/UserMapper.xml"/>
+    </mappers>
+</configuration>

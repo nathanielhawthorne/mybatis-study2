@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
+<configuration>
+    <!--??????????????????????????????db.properties??-->
+    <properties resource="db.properties"/>
+
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    <!--
+    <settings>
+        <setting name="logImpl" value="LOG4J"/>
+    </settings>
+    -->
+    <!--User?????????κ????com.xiong.pojo.User????,????????????????????????-->
+    <typeAliases>
+        <package name="com.xiong.pojo"/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper class="com.xiong.dao.TeacherMapper"/>
+        <mapper class="com.xiong.dao.StudentMapper"/>
+    </mappers>
+</configuration>
